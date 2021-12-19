@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -253,19 +254,50 @@ namespace Lab_1_and_2_CSharp
             }
         }
 
-        //public V1DataArray ToSmallerGrid(int ns)
-        //{
-        //    int ret = 0;
-        //    try
-        //    {
+        public V1DataArray ToSmallerGrid(int ns)
+        {
+            int ret = 0;
+            int k = 0;
+            double hs = xStep * (nX - 1) / (ns - 1);
+            double[] x = new double[2] {0.0, xStep * (nX - 1)};
+            double[] y = new double[2 * nX * nY];
+            double[] scoeff = new double[2 * nY * 4 * (nX - 1)];
+            double[] site = new double[2] {0.0, hs * (ns - 1)};
+            int[] dorder = new int[1] {1};
+            double[] result = new double[2 * ns * nY];
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //}
-        //[DllImport("..\\..\\..\\..\\x64\\DEBUG\\CPP_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
-        //public static extern void Interpolate(ref int ret);
+            for (int i = 0; i < nY; i++)
+            {
+                for (int j = 0; j < nX; j++)
+                {
+                    y[k] = Grid[i, j].Real;
+                    k += 1;
+                }
+
+                for (int j = 0; j < nX; j++)
+                {
+                    y[k] = Grid[i, j].Imaginary;
+                    k += 1;
+                }
+            }
+
+            try
+            {
+                CubicInterpolate(nX, nY, x, y, scoeff, ns, site, 1, dorder, result, ref ret);
+                if (ret == -1)
+                {
+                    return null;
+                }
+                Console.WriteLine(result);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+        [DllImport("..\\..\\..\\..\\x64\\DEBUG\\CPP_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CubicInterpolate(int nx, int ny, double[] x, double[] y, double[] scoeff, int nsite, double[] site, int ndorder, int[] dorder, double[] result, ref int ret);
     }
 }
