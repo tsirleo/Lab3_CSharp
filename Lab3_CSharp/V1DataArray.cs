@@ -283,12 +283,13 @@ namespace Lab_1_and_2_CSharp
 
             try
             {
-                CubicInterpolate(nX, nY, x, y, scoeff, ns, site, 1, dorder, result, ref ret);
+                CubicInterpolate(nX, 2 * nY, x, y, scoeff, ns, site, 1, dorder, result, ref ret);
                 if (ret == -1)
                 {
                     return null;
                 }
-                Console.WriteLine(result);
+                foreach (double el in result)
+                    Console.WriteLine(el);
                 return null;
             }
             catch (Exception ex)

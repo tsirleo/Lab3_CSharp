@@ -192,12 +192,12 @@ namespace Lab_1_and_2_CSharp
             FdblComplex func;
             double min = 0, max = 0;
             func = Operations.MakeComplex;
-            V1DataArray dA = new V1DataArray("test", DateTime.Now, 4, 2, 0.11, 0.08, func);
+            V1DataArray dA = new V1DataArray("test", DateTime.Now, 4, 2, 0.22, 0.14, func);
+            Console.WriteLine(dA.ToLongString("{0:f4}"));
+            Console.WriteLine("\n**********************************************************\n");
             V1DataArray scaledDA = dA.ToSmallerGrid(8);
             if (scaledDA != null)
             {
-                Console.WriteLine(dA.ToLongString("{0:f4}"));
-                Console.WriteLine("\n**********************************************************\n");
                 Console.WriteLine("DataArray with scaled grid: ");
                 Console.WriteLine(scaledDA.ToLongString("{0:f4}"));
                 Console.WriteLine("\n**********************************************************\n");
