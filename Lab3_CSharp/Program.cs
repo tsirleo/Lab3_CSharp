@@ -192,10 +192,10 @@ namespace Lab_1_and_2_CSharp
             FdblComplex func;
             double min = 0, max = 0;
             func = Operations.MakeComplex;
-            V1DataArray dA = new V1DataArray("test", DateTime.Now, 4, 2, 0.22, 0.14, func);
+            V1DataArray dA = new V1DataArray("test", DateTime.Now, 3, 2, 0.22, 0.14, func);
             Console.WriteLine(dA.ToLongString("{0:f4}"));
             Console.WriteLine("\n**********************************************************\n");
-            V1DataArray scaledDA = dA.ToSmallerGrid(8);
+            V1DataArray scaledDA = dA.ToSmallerGrid(7);
             if (scaledDA != null)
             {
                 Console.WriteLine("DataArray with scaled grid: ");
@@ -214,11 +214,19 @@ namespace Lab_1_and_2_CSharp
                 Console.WriteLine("Scaled array: max and min imaginary   jy = 1");
                 scaledDA.Max_Field_Im(1, ref min, ref max);
                 Console.WriteLine("minimum = " + min + "    " + "maximum = " + max);
-                Console.WriteLine("\n");
+                Console.WriteLine("\n**********************************************************\n");
+                Console.WriteLine("Checking for matching values in grid nodes:\n");
+                Console.WriteLine($"originArray: value in the first node = {dA.FieldAt(0, 0)}\tvalue in the first level middle node = {dA.FieldAt(1, 0)}\t" +
+                                  $"value in the second level middle node = {dA.FieldAt(1, 1)}\t\t  value in the last node = {dA.FieldAt(2, 1)}");
+                Console.WriteLine('\n');
+                Console.WriteLine($"scaledArray: value in the first node = {scaledDA.FieldAt(0, 0)}\tvalue in the first level middle node = {scaledDA.FieldAt(3, 0)}\t" +
+                                  $"value in the second level middle node = {scaledDA.FieldAt(3, 1)}\t\t  value in the last node = {scaledDA.FieldAt(6, 1)}");
+                Console.WriteLine("\n**********************************************************\n");
             }
             else
             {
                 Console.WriteLine("Some error happened, DataArray wasn't being scaled!");
+                Console.WriteLine("\n**********************************************************\n");
             }
         }
     }

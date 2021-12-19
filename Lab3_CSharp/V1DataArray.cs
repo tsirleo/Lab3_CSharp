@@ -140,7 +140,7 @@ namespace Lab_1_and_2_CSharp
                 double x = 0.0;
                 for (int j = 0; j < nX; j++)
                 {
-                    output += $"\n\t\tElement_[{i},{j}]:\n\t\t\tX: {x}\n\t\t\tY: {y}\n\t\t\tElem_complex: {string.Format(format, Grid[i, j])}\n\t\t\tElem_module: {string.Format(format, Grid[i, j].Magnitude)}";
+                    output += $"\n\t\tElement_[{i},{j}]:\n\t\t\tX: {string.Format(format, x)}\n\t\t\tY: {string.Format(format, y)}\n\t\t\tElem_complex: {string.Format(format, Grid[i, j])}\n\t\t\tElem_module: {string.Format(format, Grid[i, j].Magnitude)}";
                     x += xStep;
                 }
                 y += yStep;
@@ -288,9 +288,24 @@ namespace Lab_1_and_2_CSharp
                 {
                     return null;
                 }
-                foreach (double el in result)
-                    Console.WriteLine(el);
-                return null;
+
+                V1DataArray scaledDA = new V1DataArray("scaled array", DateTime.Now);
+                scaledDA.nX = ns;
+                scaledDA.nY = nY;
+                scaledDA.xStep = hs;
+                scaledDA.yStep = yStep;
+                scaledDA.Grid = new Complex[scaledDA.nY, scaledDA.nX];
+                for (int i = 0; i < scaledDA.nY; i++)
+                {
+                    for (int j = 0; j < scaledDA.nX; j++)
+                    {
+                        var real = result[j + ns * i * 2];
+                        var imaginary = result[j + ns * (2 * i + 1)];
+                        scaledDA.Grid[i, j] = new Complex(real, imaginary);
+                    }
+                }
+
+                return scaledDA;
             }
             catch (Exception ex)
             {
